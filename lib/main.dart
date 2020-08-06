@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-String url = "https://sahaysdailypost.com/";
+String url = "https://google.com/";
 
-void main() => runApp(MyApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Permission.camera.request();
+  await Permission.location.request();
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -47,6 +55,14 @@ class HomeState extends State<Home> {
         withJavascript: true,
         withLocalStorage: true,
         withZoom: true,
+        geolocationEnabled: true,
+        initialChild: Container(
+          color: Colors.redAccent,
+          child: const Center(
+            child: Text('Waiting.....'),
+          ),
+        ),
+        // bottomNavigationBar: Text("data"),
       ),
     );
   }
